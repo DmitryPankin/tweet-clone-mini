@@ -5,11 +5,9 @@ pydantic==2.10.2
 pytest==8.3.4
 httpx==0.28.0
 
-Flask-SQLAlchemy==3.1.1
 psycopg2-binary==2.9.10
 requests==2.32.3
-gunicorn==20.1.0
 alembic==1.14.0
 asyncpg
 python-multipart
-
+greenlet

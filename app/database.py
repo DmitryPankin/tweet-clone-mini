@@ -7,9 +7,7 @@ engine = create_async_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(
     bind=engine,
     class_=AsyncSession,
-    expire_on_commit=False,
-    autocommit=False,
-    autoflush=False,
+    expire_on_commit=False
 )
 
 async def get_db():
@@ -18,4 +16,3 @@ async def get_db():
             yield db
         finally:
             await db.close()
-

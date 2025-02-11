@@ -15,6 +15,7 @@ SessionLocal = sessionmaker(
     expire_on_commit=False,
 )
 
+
 async def init_db():
     async with engine.begin() as conn:
         # Создание таблиц синхронно в контексте асинхронной задачи
@@ -22,7 +23,7 @@ async def init_db():
 
     async with SessionLocal() as db:
         # Поиск пользователя с api_key "test"
-        result = await db.execute(select(User).filter(User.api_key == "test"))
+        result = await db.execute(select(User).filter(User.api_key == "test3"))
         user = result.scalars().first()
         if user:
             await db.delete(user)
@@ -30,8 +31,8 @@ async def init_db():
 
         # Создание нового пользователя
         test_user = User(
-            name="User",
-            api_key="test",
+            name="User3",
+            api_key="test3",
             followers=[],
             following=[]
         )
