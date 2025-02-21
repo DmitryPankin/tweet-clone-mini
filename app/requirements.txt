@@ -4,10 +4,10 @@ sqlalchemy[asyncio]==2.0.36
 pydantic==2.10.2
 pytest==8.3.4
 httpx==0.28.0
-
 psycopg2-binary==2.9.10
 requests==2.32.3
 alembic==1.14.0
 asyncpg
 python-multipart
 greenlet
+docker

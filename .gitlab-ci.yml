@@ -1,0 +1,46 @@
+stages:
+  - lint
+  - test
+
+lint:
+  stage: lint
+  image: ubuntu:latest  # Используем образ Ubuntu
+  before_script:
+    # Установка Python
+    - apt-get update
+    - apt-get install -y python3 python3-pip
+  script:
+    # Установка зависимостей из requirements.txt
+    - python3 -m pip install --upgrade pip
+    - pip install -r requirements.txt
+    # Клонирование репозитория
+    - git clone $CI_REPOSITORY_URL .
+    # Проверка кода с помощью Flake8
+    - flake8 .
+    # Проверка сортировки импортов с помощью isort
+    - isort --check-only .
+    # Проверка форматирования кода с помощью Black
+    - black --check .
+    # Статический анализ типов с помощью Mypy
+    - mypy .
+
+  only:
+    - main  # Запуск на основной ветке
+
+test:
+  stage: test
+  image: ubuntu:latest  # Используем образ Ubuntu
+  before_script:
+    # Установка Python
+    - apt-get update
+    - apt-get install -y python3 python3-pip
+  script:
+    # Установка зависимостей из requirements.txt
+    - python3 -m pip install --upgrade pip
+    - pip install -r requirements.txt
+    # Клонирование репозитория
+    - git clone $CI_REPOSITORY_URL .
+    # Запуск тестов с помощью pytest
+    - pytest
+  only:
+    - main  # Запуск на основной ветке

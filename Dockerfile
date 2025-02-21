@@ -8,11 +8,14 @@ WORKDIR /app
 COPY ./app/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
+# Добавляем клиент postgresql для тестирования
+RUN apt-get update && apt-get install -y postgresql-client
+
 # Копируем все содержимое директории app в рабочую директорию контейнера
 COPY ./app /app
 
 # Копируем папку dist для сервировки статических файлов
-COPY ./dist /dist
+COPY ./dist /app/dist
 
 # Экспонируем порт
 EXPOSE 8000
