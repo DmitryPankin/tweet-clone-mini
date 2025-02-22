@@ -4,43 +4,39 @@ stages:
 
 lint:
   stage: lint
-  image: ubuntu:latest  # Используем образ Ubuntu
-  before_script:
-    # Установка Python
-    - apt-get update
-    - apt-get install -y python3 python3-pip
+  image: python:3.12  # Используем образ Python 3.12
   script:
-    # Установка зависимостей из requirements.txt
-    - python3 -m pip install --upgrade pip
+    - python -m pip install --upgrade pip
     - pip install -r requirements.txt
-    # Клонирование репозитория
-    - git clone $CI_REPOSITORY_URL .
-    # Проверка кода с помощью Flake8
-    - flake8 .
-    # Проверка сортировки импортов с помощью isort
-    - isort --check-only .
-    # Проверка форматирования кода с помощью Black
-    - black --check .
-    # Статический анализ типов с помощью Mypy
-    - mypy .
-
+    - pip install pre-commit
+    - pre-commit run --all-files
   only:
-    - main  # Запуск на основной ветке
+    - main
+    - develop
 
 test:
   stage: test
-  image: ubuntu:latest  # Используем образ Ubuntu
+  image: docker:latest  # Используем образ Docker
+  services:
+    - docker:dind
+
+  variables:
+    DOCKER_DRIVER: overlay2
+
   before_script:
-    # Установка Python
-    - apt-get update
-    - apt-get install -y python3 python3-pip
-  script:
-    # Установка зависимостей из requirements.txt
-    - python3 -m pip install --upgrade pip
+    - docker info
+    - python -m pip install --upgrade pip
     - pip install -r requirements.txt
-    # Клонирование репозитория
-    - git clone $CI_REPOSITORY_URL .
-    # Запуск тестов с помощью pytest
+    - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    - chmod +x /usr/local/bin/docker-compose
+    - docker-compose up -d
+
+  script:
     - pytest
+
+  after_script:
+    - docker-compose down
+
   only:
-    - main  # Запуск на основной ветке
+    - main
+    - develop
