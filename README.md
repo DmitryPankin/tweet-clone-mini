@@ -81,7 +81,7 @@
 1. Клонируйте репозиторий:
 
     ```bash
-    git clone hhttps://github.com/DmitryPankin/tweet-clone-mini.git
+    git clone https://github.com/DmitryPankin/tweet-clone-mini.git
 
     cd tweet-clone-mini
     ```
