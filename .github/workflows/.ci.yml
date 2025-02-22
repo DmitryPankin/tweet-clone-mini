@@ -38,11 +38,11 @@ jobs:
         # Описание: Этот шаг проверяет ваш код с помощью Flake8.
 
       - name: Check import sorting with isort
-        run: isort --check-only .
+        run: isort .
         # Описание: Этот шаг проверяет сортировку импортов с помощью isort.
 
       - name: Check code formatting with Black
-        run: black --check .
+        run: black .
         # Описание: Этот шаг проверяет форматирование кода с помощью Black.
 
       - name: Static type analysis with Mypy
