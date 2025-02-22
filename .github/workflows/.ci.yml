@@ -41,6 +41,13 @@ jobs:
     name: Run Tests  # Название задания
     runs-on: ubuntu-latest  # Среда выполнения задания
 
+    services:
+      docker:
+        image: docker:19.03.12
+        options: --privileged
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -58,6 +65,16 @@ jobs:
           pip install -r requirements.txt
         # Описание: Этот шаг обновляет pip и устанавливает зависимости из файла requirements.txt.
 
+      - name: Set up Docker Compose
+        run: |
+          docker-compose up -d
+        # Описание: Этот шаг запускает Docker Compose для создания и запуска контейнеров.
+
       - name: Run tests with pytest
         run: pytest
         # Описание: Этот шаг запускает тесты с использованием pytest.
+
+      - name: Tear down Docker Compose
+        if: always()
+        run: docker-compose down
+        # Описание: Этот шаг останавливает и удаляет контейнеры Docker Compose после завершения тестов.
