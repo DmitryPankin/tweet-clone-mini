@@ -35,23 +35,7 @@ jobs:
 
       - name: Run pre-commit hooks
         run: pre-commit run --all-files
-        # Описание: Этот шаг запускает все pre-commit хуки
-
-      - name: Lint code with Flake8
-        run: flake8 .
-        # Описание: Этот шаг проверяет ваш код с помощью Flake8.
-
-      - name: Check import sorting with isort
-        run: isort .
-        # Описание: Этот шаг проверяет сортировку импортов с помощью isort.
-
-      - name: Check code formatting with Black
-        run: black .
-        # Описание: Этот шаг проверяет форматирование кода с помощью Black.
-
-      - name: Static type analysis with Mypy
-        run: mypy .
-        # Описание: Этот шаг выполняет статический анализ типов с помощью Mypy.
+        # Описание: Этот шаг запускает все pre-commit хуки для black, isort, flake8, mypy
 
   test:
     name: Run Tests  # Название задания
